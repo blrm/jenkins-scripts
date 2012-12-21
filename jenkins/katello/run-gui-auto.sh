@@ -1,4 +1,3 @@
-git checkout origin/$AUTOMATION_BRANCH
 lein clean, deps 
 echo "PRODUCT_URL: $PRODUCT_URL"
 lein trampoline run \
