@@ -11,6 +11,11 @@ wget https://raw.github.com/gist/3796321/deltacloud-provision.rb
 chmod 755 deltacloud-provision.rb
 
 TARGET_HOSTNAME=`./deltacloud-provision.rb "$DC_USER" "$DC_PASSWORD" "$DC_URL" "$DEPLOYMENT_NAME-ci" "$IMAGE_ID" "$CPUS" "$MB_RAM"`
+
+#set remote hostname to reverse dns lookup
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+scp -o StrictHostKeyChecking=no $DIR/../sethostname.sh root@$TARGET_HOSTNAME:/tmp
+ssh -o StrictHostKeyChecking=no root@$TARGET_HOSTNAME "/tmp/sethostname.sh"
  
 ssh -o StrictHostKeyChecking=no root@$TARGET_HOSTNAME "service iptables stop"
 
