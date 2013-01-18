@@ -6,7 +6,7 @@ lein trampoline run \
 --admin-password "$ADMIN_PASSWORD" \
 --sync-repo "$SYNC_TEST_REPO" \
 --num-threads $CONCURRENT_SESSIONS \
---selenium-address localhost:4444 \
+--selenium-address "$SELENIUM_ADDRESS" \
 --deltacloud-url "$DELTACLOUD_URL" \
 --deltacloud-user "$DELTACLOUD_USER" \
 --deltacloud-password "$DELTACLOUD_PASSWORD" \
