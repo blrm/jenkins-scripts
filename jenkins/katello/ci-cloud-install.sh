@@ -5,12 +5,9 @@ rm -rf githash buildhash logs/*
 wget http://hudson.rhq.lab.eng.bos.redhat.com:8080/hudson/view/katello/job/katello-build/lastSuccessfulBuild/artifact/githash
 wget http://hudson.rhq.lab.eng.bos.redhat.com:8080/hudson/view/katello/job/katello-build/lastSuccessfulBuild/artifact/buildhash
 
-#start deltacloud instance
-rm -f deltacloud-provision.rb
-wget https://raw.github.com/gist/3796321/deltacloud-provision.rb
-chmod 755 deltacloud-provision.rb
 
-TARGET_HOSTNAME=`./deltacloud-provision.rb "$DC_USER" "$DC_PASSWORD" "$DC_URL" "$DEPLOYMENT_NAME-ci" "$IMAGE_ID" "$CPUS" "$MB_RAM"`
+
+TARGET_HOSTNAME=`../deltacloud-provision.rb "$DC_USER" "$DC_PASSWORD" "$DC_URL" "$DEPLOYMENT_NAME-ci" "$IMAGE_ID" "$CPUS" "$MB_RAM"`
 
 #set remote hostname to reverse dns lookup
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
