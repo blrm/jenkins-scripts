@@ -6,8 +6,8 @@ wget http://hudson.rhq.lab.eng.bos.redhat.com:8080/hudson/view/katello/job/katel
 wget http://hudson.rhq.lab.eng.bos.redhat.com:8080/hudson/view/katello/job/katello-build/lastSuccessfulBuild/artifact/buildhash
 
 
-
-TARGET_HOSTNAME=`../deltacloud-provision.rb "$DC_USER" "$DC_PASSWORD" "$DC_URL" "$DEPLOYMENT_NAME-ci" "$IMAGE_ID" "$CPUS" "$MB_RAM"`
+DIR=$( cd "$( dirname "$0" )" && pwd )
+TARGET_HOSTNAME=`$DIR/../deltacloud-provision.rb "$DC_USER" "$DC_PASSWORD" "$DC_URL" "$DEPLOYMENT_NAME-ci" "$IMAGE_ID" "$CPUS" "$MB_RAM"`
 
 #set remote hostname to reverse dns lookup
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
