@@ -7,7 +7,7 @@ wget http://hudson.rhq.lab.eng.bos.redhat.com:8080/hudson/view/katello/job/katel
 
 
 DIR=$( cd "$( dirname "$0" )" && pwd )
-TARGET_HOSTNAME=`$DIR/../deltacloud-provision.rb "$DC_USER" "$DC_PASSWORD" "$DC_URL" "$DEPLOYMENT_NAME-ci-$DC_USER" "$IMAGE_ID" "$CPUS" "$MB_RAM"`
+TARGET_HOSTNAME=`$DIR/../deltacloud-provision.rb "$DC_USER" "$DC_PASSWORD" "$DC_URL" "$DEPLOYMENT_NAME-ci-jenkins" "$IMAGE_ID" "$CPUS" "$MB_RAM"`
 
 #set remote hostname to reverse dns lookup
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
