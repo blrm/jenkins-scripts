@@ -1,0 +1,5 @@
+[cfse-puddle]
+name=CloudForms System Engine puddle 1.1
+baseurl=http://download.lab.bos.redhat.com/rel-eng/CloudForms/1.1/latest/el6-se/x86_64/os
+enabled=1
+gpgcheck=0
