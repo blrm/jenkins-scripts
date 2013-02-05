@@ -19,18 +19,13 @@ endswith(){
     echo $1 | grep "${2}$"
 }
 
-url-to-remote(){
-    curl -k $1 | ssh -o StrictHostKeyChecking=no $2 "cat > $3/${1##*/}" 
-}
-
 for repo in $REPOS; do
     if endswith $repo "\.repo"; then
         echo "found a .repo"
-        url-to-remote $repo root@$TARGET_HOSTNAME /etc/yum.repos.d
+        ssh -o StrictHostKeyChecking=no root@$TARGET_HOSTNAME "cd /etc/yum.repos.d/;curl -k -O $repo"
     elif endswith $repo "\.rpm"; then
         echo "found an rpm containing repos"
-        url-to-remote $repo root@$TARGET_HOSTNAME /tmp
-        ssh -o StrictHostKeyChecking=no root@$TARGET_HOSTNAME "yum -y localinstall /tmp/${repo##*/}"
+        ssh -o StrictHostKeyChecking=no root@$TARGET_HOSTNAME "curl -k -O $repo;yum -y localinstall ${repo##*/}"
     else 
         echo "Raw repo url detected, this is no longer supported:  $repo"
         exit 1
