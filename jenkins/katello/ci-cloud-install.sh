@@ -15,28 +15,28 @@ ssh -o StrictHostKeyChecking=no root@$TARGET_HOSTNAME "/tmp/sethostname.sh"
  
 ssh -o StrictHostKeyChecking=no root@$TARGET_HOSTNAME "service iptables stop"
 
-if [ "$PRODUCT_REPO_RPMS" ]; then
-  ssh -o StrictHostKeyChecking=no root@$TARGET_HOSTNAME "yum -y localinstall $PRODUCT_REPO_RPMS"
-else
-  ssh -o StrictHostKeyChecking=no root@$TARGET_HOSTNAME "echo '
-[$DEPLOYMENT_NAME]
-name=$DEPLOYMENT_NAME
-baseurl=$PRODUCT_YUM_URL
-enabled=1
-gpgcheck=0
-metadata_expire=120' > /etc/yum.repos.d/$DEPLOYMENT_NAME.repo"
-fi
+endswith(){
+    echo $1 | grep "${2}$"
+}
 
-if [ $PRODUCT_REPOFILE_URL ]; then
-    ssh -o StrictHostKeyChecking=no root@$TARGET_HOSTNAME "cd /etc/yum.repos.d; wget -N $PRODUCT_REPOFILE_URL"
- else
-    scp -o StrictHostKeyChecking=no $DIR/katello-devel.repo root@$TARGET_HOSTNAME:/etc/yum.repos.d 
-fi
+url-to-remote(){
+    curl -k $1 | ssh -o StrictHostKeyChecking=no $2 "cat > $3/${1##*/}" 
+}
 
-if [ $ADDITIONAL_REPOFILE_URL ]; then
- ssh -o StrictHostKeyChecking=no root@$TARGET_HOSTNAME "cd /etc/yum.repos.d;wget  -N $ADDITIONAL_REPOFILE_URL"
-fi
-
+for repo in $REPOS; do
+    if endswith $repo "\.repo"; then
+        echo "found a .repo"
+        url-to-remote $repo root@$TARGET_HOSTNAME /etc/yum.repos.d
+    elif endswith $repo "\.rpm"; then
+        echo "found an rpm containing repos"
+        url-to-remote $repo root@$TARGET_HOSTNAME /tmp
+        ssh -o StrictHostKeyChecking=no root@$TARGET_HOSTNAME "yum -y localinstall /tmp/${repo##*/}"
+    else 
+        echo "Raw repo url detected, this is no longer supported:  $repo"
+        exit 1
+    fi
+done
+        
 if [ $ENABLE_REPOS ]; then
  EXTRA_YUM_OPT=(--enablerepo=$ENABLE_REPOS)
 fi
