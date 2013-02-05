@@ -1,0 +1,14 @@
+[katello-devel]
+name=Katello Devel - $basearch
+baseurl=http://hudson.rhq.lab.eng.bos.redhat.com:8080/hudson/job/katello-build/lastSuccessfulBuild/artifact/rpms/rhel63latest/$basearch/
+enabled=1
+gpgcheck=0
+#http_caching=packages
+metadata_expire=120
+ 
+[beaker-optional-x86_64-os]
+name=beaker-optional-x86_64-os
+baseurl=http://download.devel.redhat.com/released/RHEL-6/6.2/Server/optional/x86_64/os/
+enabled=1
+gpgcheck=0
+skip_if_unavailable=1
