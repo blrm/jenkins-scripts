@@ -6,11 +6,10 @@ wget http://hudson.rhq.lab.eng.bos.redhat.com:8080/hudson/view/katello/job/katel
 wget http://hudson.rhq.lab.eng.bos.redhat.com:8080/hudson/view/katello/job/katello-build/lastSuccessfulBuild/artifact/buildhash
 
 
-DIR=$( cd "$( dirname "$0" )" && pwd )
-TARGET_HOSTNAME=`$DIR/../deltacloud-provision.rb "$DC_USER" "$DC_PASSWORD" "$DC_URL" "$DEPLOYMENT_NAME-ci-jenkins" "$IMAGE_ID" "$CPUS" "$MB_RAM"`
-
-#set remote hostname to reverse dns lookup
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+TARGET_HOSTNAME=`$DIR/../deltacloud-provision.rb "$DC_USER" "$DC_PASSWORD" "$DC_URL" "$DEPLOYMENT_NAME-ci-jenkins" "$IMAGE_ID" "$CPUS" "$MB_RAM"`
+#set remote hostname to reverse dns lookup
+
 scp -o StrictHostKeyChecking=no $DIR/../sethostname.sh root@$TARGET_HOSTNAME:/tmp
 ssh -o StrictHostKeyChecking=no root@$TARGET_HOSTNAME "/tmp/sethostname.sh"
  
@@ -29,7 +28,9 @@ metadata_expire=120' > /etc/yum.repos.d/$DEPLOYMENT_NAME.repo"
 fi
 
 if [ $PRODUCT_REPOFILE_URL ]; then
- ssh -o StrictHostKeyChecking=no root@$TARGET_HOSTNAME "cd /etc/yum.repos.d; wget -N $PRODUCT_REPOFILE_URL"
+    ssh -o StrictHostKeyChecking=no root@$TARGET_HOSTNAME "cd /etc/yum.repos.d; wget -N $PRODUCT_REPOFILE_URL"
+ else
+    scp -o StrictHostKeyChecking=no $DIR/katello-devel.repo root@$TARGET_HOSTNAME:/etc/yum.repos.d 
 fi
 
 if [ $ADDITIONAL_REPOFILE_URL ]; then
