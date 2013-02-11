@@ -22,10 +22,10 @@ endswith(){
 for repo in $REPOS; do
     if endswith $repo "\.repo"; then
         echo "found a .repo"
-        ssh -o StrictHostKeyChecking=no root@$TARGET_HOSTNAME "cd /etc/yum.repos.d/;curl -k -O $repo"
+        ssh -o StrictHostKeyChecking=no root@$TARGET_HOSTNAME "cd /etc/yum.repos.d/;curl -Lk -O $repo"
     elif endswith $repo "\.rpm"; then
         echo "found an rpm containing repos"
-        ssh -o StrictHostKeyChecking=no root@$TARGET_HOSTNAME "curl -k -O $repo;yum -y localinstall ${repo##*/}"
+        ssh -o StrictHostKeyChecking=no root@$TARGET_HOSTNAME "curl -Lk -O $repo;yum -y localinstall ${repo##*/}"
     else 
         echo "Raw repo url detected, this is no longer supported:  $repo"
         exit 1
