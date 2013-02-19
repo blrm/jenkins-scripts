@@ -47,7 +47,7 @@ get_logs() {
   scp -o StrictHostKeyChecking=no -r root@$TARGET_HOSTNAME:/var/log/katello logs/
 }
 
-if ! ssh -o StrictHostKeyChecking=no root@$TARGET_HOSTNAME "set -e;yum clean all;yum install ${EXTRA_YUM_OPT[@]} -y $PRODUCT_REPO;yum -y update;katello-configure --deployment=$DEPLOYMENT_NAME --user-pass=admin" --job-workers=3; then
+if ! ssh -o StrictHostKeyChecking=no root@$TARGET_HOSTNAME "set -e;yum clean all;yum install ${EXTRA_YUM_OPT[@]} -y $PRODUCT_REPO;yum -y update;katello-configure --deployment=$DEPLOYMENT_NAME --user-pass=admin --job-workers=3" ; then
   get_logs 
   exit 1
 else 
