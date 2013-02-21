@@ -7,7 +7,7 @@ wget http://hudson.rhq.lab.eng.bos.redhat.com:8080/hudson/view/katello/job/katel
 
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-TARGET_HOSTNAME=`$DIR/../deltacloud-provision.rb "$DC_USER" "$DC_PASSWORD" "$DC_URL" "$DEPLOYMENT_NAME-ci-jenkins" "$IMAGE_ID" "$CPUS" "$MB_RAM"`
+TARGET_HOSTNAME=`$DIR/../deltacloud-provision.rb "$DC_USER" "$DC_PASSWORD" "$DC_URL" "$INSTANCE_NAME" "$IMAGE_ID" "$CPUS" "$MB_RAM"`
 #set remote hostname to reverse dns lookup
 
 scp -o StrictHostKeyChecking=no $DIR/../sethostname.sh root@$TARGET_HOSTNAME:/tmp
@@ -47,7 +47,7 @@ get_logs() {
   scp -o StrictHostKeyChecking=no -r root@$TARGET_HOSTNAME:/var/log/katello logs/
 }
 
-if ! ssh -o StrictHostKeyChecking=no root@$TARGET_HOSTNAME "set -e;yum clean all;yum install ${EXTRA_YUM_OPT[@]} -y $PRODUCT_REPO;yum -y update;katello-configure --deployment=$DEPLOYMENT_NAME --user-pass=admin --job-workers=3" ; then
+if ! ssh -o StrictHostKeyChecking=no root@$TARGET_HOSTNAME "set -e;yum clean all;yum install ${EXTRA_YUM_OPT[@]} -y $PRODUCT_PACKAGE;yum -y update;katello-configure ${KATELLO_CONFIGURE_OPTS[@]}" ; then
   get_logs 
   exit 1
 else 
