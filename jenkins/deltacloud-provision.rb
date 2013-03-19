@@ -16,7 +16,7 @@ end
 def waitforcond(instname)
   inst = instbyname(instname)
   while (! yield inst)
-    sleep(5)
+    sleep(60)
     inst = instbyname(instname)
   end
   return inst
