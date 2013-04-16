@@ -1,4 +1,4 @@
-lein clean, deps 
+lein do clean, deps 
 echo "PRODUCT_URL: $PRODUCT_URL"
 lein trampoline run \
 --server-url "$PRODUCT_URL" \
