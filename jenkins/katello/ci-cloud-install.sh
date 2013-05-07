@@ -40,7 +40,8 @@ if [ $DISABLE_REPOS ]; then
 fi
 
 #save url for downstream jobs
-echo "PRODUCT_URL=https://$TARGET_HOSTNAME/$DEPLOYMENT_NAME/" > properties.txt
+TARGET_FQDN=`ssh -o StrictHostKeyChecking=no root@$TARGET_HOSTNAME hostname`
+echo "PRODUCT_URL=https://$TARGET_FQDN/$DEPLOYMENT_NAME/" > properties.txt
 
 #function to bring back install logs
 get_logs() {
