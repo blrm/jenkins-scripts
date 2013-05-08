@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -e
 # args: local subdir, remote git url, branch to checkout
 pull-and-checkout() {
     cd "$WORKSPACE"
