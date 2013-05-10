@@ -8,7 +8,7 @@ instname, image_id, cpu, mem = ARGV.slice(3, ARGV.length)
 def instbyname(name)
   retrycount=0
   begin
-    retrycount++
+    retrycount.increment
     return $client.instances().select { |i| i.name == name }.first
   rescue
     sleep 20
@@ -45,7 +45,7 @@ begin
     
     destroyretrycount=0
     begin
-      destroyretrycount++
+      destroyretrycount.increment
       existing.destroy!
     rescue
       sleep 20
