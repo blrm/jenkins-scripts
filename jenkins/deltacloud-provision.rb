@@ -6,10 +6,14 @@ $client = DeltaCloud.new(*ARGV.slice(0,3))
 instname, image_id, cpu, mem = ARGV.slice(3, ARGV.length)
 
 def instbyname(name)
+  retrycount=0
   begin
+    retrycount++
     return $client.instances().select { |i| i.name == name }.first
   rescue
-    retry
+    sleep 20
+    retry if retrycount < 5
+    raise
   end 
 end
 
@@ -39,10 +43,13 @@ begin
     end
     existing = waitforstate(instname, "STOPPED")
     
+    destroyretrycount=0
     begin
+      destroyretrycount++
       existing.destroy!
-    rescue       
-      retry
+    rescue
+      sleep 20
+      retry if destroyretrycount < 5
     end
     
     waitforcond(instname) { |i| i.nil? }
