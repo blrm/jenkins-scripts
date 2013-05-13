@@ -45,7 +45,7 @@ done
 
 IFS=$OLDIFS
 
-MOCK_CFG="rhel63latest"
+MOCK_CFG="rhel-latest"
 ARCHES="x86_64"
 
 for OS in $MOCK_CFG; do
