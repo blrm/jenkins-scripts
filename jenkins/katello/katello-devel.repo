@@ -1,6 +1,6 @@
 [katello-devel]
 name=Katello Devel - $basearch
-baseurl=http://hudson.rhq.lab.eng.bos.redhat.com:8080/hudson/job/katello-build/lastSuccessfulBuild/artifact/rpms/rhel63latest/$basearch/
+baseurl=http://hudson.rhq.lab.eng.bos.redhat.com:8080/hudson/job/katello-build/lastSuccessfulBuild/artifact/rpms/rhel-latest/$basearch/
 enabled=1
 gpgcheck=0
 #http_caching=packages
