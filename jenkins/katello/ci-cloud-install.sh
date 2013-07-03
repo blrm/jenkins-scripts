@@ -33,10 +33,10 @@ for repo in $REPOS; do
 done
         
 if [ $ENABLE_REPOS ]; then
- EXTRA_YUM_OPT=(--enablerepo=$ENABLE_REPOS)
+    EXTRA_YUM_OPT=(--enablerepo=$ENABLE_REPOS)
 fi
 if [ $DISABLE_REPOS ]; then
- EXTRA_YUM_OPT+=(--disablerepo=$DISABLE_REPOS)
+    EXTRA_YUM_OPT+=(--disablerepo=$DISABLE_REPOS)
 fi
 
 #save url for downstream jobs
@@ -45,12 +45,20 @@ echo "PRODUCT_URL=https://$TARGET_FQDN/$DEPLOYMENT_NAME/" > properties.txt
 
 #function to bring back install logs
 get_logs() {
-  scp -o StrictHostKeyChecking=no -r root@$TARGET_HOSTNAME:/var/log/katello logs/
+    scp -o StrictHostKeyChecking=no -r root@$TARGET_HOSTNAME:/var/log/katello logs/
+}
+
+#function to download and place a public cert in cp's upstream certs dir
+install_cert() {
+    ssh -o StrictHostKeyChecking=no root@$TARGET_HOSTNAME "cd /etc/candlepin/certs/upstream;curl -LkO $1;service tomcat6 restart"
 }
 
 if ! ssh -o StrictHostKeyChecking=no root@$TARGET_HOSTNAME "set -e;yum clean all;yum install ${EXTRA_YUM_OPT[@]} -y $PRODUCT_PACKAGE;yum -y update;katello-configure ${KATELLO_CONFIGURE_OPTS[@]}" ; then
-  get_logs 
-  exit 1
+    get_logs 
+    exit 1
 else 
-  get_logs || true
+    if [ $$CP_UPSTREAM_CERT_URL ]; then
+        install_cert $CP_UPSTREAM_CERT_URL
+    fi
+    get_logs || true
 fi
