@@ -1,6 +1,7 @@
 #!/usr/bin/ruby
 require 'rubygems'
 require 'deltacloud'
+require 'pp'
 $client = DeltaCloud.new(*ARGV.slice(0,3))
 
 instname, image_id, cpu, mem = ARGV.slice(3, ARGV.length)
@@ -8,20 +9,27 @@ instname, image_id, cpu, mem = ARGV.slice(3, ARGV.length)
 def instbyname(name)
   retrycount=0
   begin
+    puts("Retrieving instance " + name + " (if any)" + ", retry #" + retrycount.to_s)
     retrycount += 1
     return $client.instances().select { |i| i.name == name }.first
-  rescue
+  rescue Exception => e
+    puts("Couldn't retrieve instance " + name)
+    puts(e.message)
+    # puts(e.backtrace.inspect)
     sleep 20
     retry if retrycount < 5
-    raise
+    raise e
   end 
 end
 
 def waitforcond(instname)
   inst = instbyname(instname)
+  puts("Instance: " + inst.to_s)
   while (! yield inst)
-    sleep(60)
+    sleep(20)
     inst = instbyname(instname)
+    PP.pp(inst)
+    puts("\n")
   end
   return inst
 end
@@ -71,7 +79,8 @@ begin
 
   inst = waitforcond(instname) { |i| ipv4addrs(i).length > 0 }
            
-  puts ipv4addrs(inst).first[:address]
+  File.write(instname + ".address.txt", ipv4addrs(inst).first[:address])
 rescue Exception => e
+  puts e.message
   puts e.backtrace
 end
