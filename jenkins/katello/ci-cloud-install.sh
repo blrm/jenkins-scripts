@@ -7,7 +7,9 @@ wget http://hudson.rhq.lab.eng.bos.redhat.com:8080/hudson/view/katello/job/katel
 
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-TARGET_HOSTNAME=`$DIR/../deltacloud-provision.rb "$DC_USER" "$DC_PASSWORD" "$DC_URL" "$INSTANCE_NAME" "$IMAGE_ID" "$CPUS" "$MB_RAM"`
+$DIR/../deltacloud-provision.rb "$DC_USER" "$DC_PASSWORD" "$DC_URL" "$INSTANCE_NAME" "$IMAGE_ID" "$CPUS" "$MB_RAM"
+TARGET_HOSTNAME=`cat $INSTANCE_NAME.address.txt`
+
 #set remote hostname to reverse dns lookup
 
 scp -o StrictHostKeyChecking=no $DIR/../sethostname.sh root@$TARGET_HOSTNAME:/tmp
