@@ -79,7 +79,7 @@ begin
 
   inst = waitforcond(instname) { |i| ipv4addrs(i).length > 0 }
            
-  File.write(instname + ".address.txt", ipv4addrs(inst).first[:address])
+  File.open(instname + ".address.txt") { |f| f.write(ipv4addrs(inst).first[:address]) }
 rescue Exception => e
   puts e.message
   puts e.backtrace
