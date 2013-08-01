@@ -60,7 +60,7 @@ if ! ssh -o StrictHostKeyChecking=no root@$TARGET_HOSTNAME "set -e;yum clean all
     get_logs 
     exit 1
 else 
-    if [ $$CP_UPSTREAM_CERT_URL ]; then
+    if [ $CP_UPSTREAM_CERT_URL ]; then
         install_cert $CP_UPSTREAM_CERT_URL
     fi
     get_logs || true
