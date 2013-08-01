@@ -7,7 +7,10 @@ wget http://hudson.rhq.lab.eng.bos.redhat.com:8080/hudson/view/katello/job/katel
 
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-TARGET_HOSTNAME=`$DIR/../deltacloud-provision.rb "$DC_USER" "$DC_PASSWORD" "$DC_URL" "$INSTANCE_NAME" "$IMAGE_ID" "$CPUS" "$MB_RAM"`
+lein runproject -r $OVIRT_URL -u $OVIRT_USER  -p $OVIRT_PASSWORD -c $OVIRT_CLUSTER -n $INSTANCE_NAME -t $OVIRT_TEMPLATE_NAME -o ovirt-instance-address.txt -m $MB_RAM --sockets $CPUS
+#$DIR/../deltacloud-provision.rb "$DC_USER" "$DC_PASSWORD" "$DC_URL" "$INSTANCE_NAME" "$IMAGE_ID" "$CPUS" "$MB_RAM"
+TARGET_HOSTNAME=`cat ovirt-instance-address.txt`
+
 #set remote hostname to reverse dns lookup
 
 scp -o StrictHostKeyChecking=no $DIR/../sethostname.sh root@$TARGET_HOSTNAME:/tmp
