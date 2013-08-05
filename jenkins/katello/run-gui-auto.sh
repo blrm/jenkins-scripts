@@ -7,10 +7,11 @@ lein trampoline run \
 --sync-repo "$SYNC_TEST_REPO" \
 --num-threads $CONCURRENT_SESSIONS \
 --selenium-address "$SELENIUM_ADDRESS" \
---deltacloud-url "$DELTACLOUD_URL" \
---deltacloud-user "$DELTACLOUD_USER" \
---deltacloud-password "$DELTACLOUD_PASSWORD" \
---deltacloud-image-id "$DELTACLOUD_IMAGE_ID" \
+--ovirt-url "$OVIRT_URL" \
+--ovirt-user "$OVIRT_USER" \
+--ovirt-password "$OVIRT_PASSWORD" \
+--ovirt-template "$OVIRT_TEMPLATE_NAME" \
+--ovirt-cluster "$OVIRT_CLUSTER" \
 --locale "$LOCALE" \
 $TEST_GROUP
 
