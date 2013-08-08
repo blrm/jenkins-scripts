@@ -11,6 +11,7 @@ lein trampoline run \
 --deltacloud-user "$DELTACLOUD_USER" \
 --deltacloud-password "$DELTACLOUD_PASSWORD" \
 --deltacloud-image-id "$DELTACLOUD_IMAGE_ID" \
+--browser-types "$BROWSERS"
 --locale "$LOCALE" \
 $TEST_GROUP
 
