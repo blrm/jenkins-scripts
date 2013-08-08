@@ -12,7 +12,6 @@ lein trampoline run \
 --ovirt-password "$OVIRT_PASSWORD" \
 --ovirt-template "$OVIRT_TEMPLATE_NAME" \
 --ovirt-cluster "$OVIRT_CLUSTER" \
---browser-types "$BROWSERS"
 --locale "$LOCALE" \
 $TEST_GROUP
 
