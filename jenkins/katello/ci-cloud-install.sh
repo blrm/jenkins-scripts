@@ -14,7 +14,7 @@ TARGET_HOSTNAME=`cat ovirt-instance-address.txt`
 #set remote hostname to reverse dns lookup
 
 scp -o StrictHostKeyChecking=no $DIR/../sethostname.sh root@$TARGET_HOSTNAME:/tmp
-#ssh -o StrictHostKeyChecking=no root@$TARGET_HOSTNAME "/tmp/sethostname.sh"
+ssh -o StrictHostKeyChecking=no root@$TARGET_HOSTNAME "/tmp/sethostname.sh"
  
 ssh -o StrictHostKeyChecking=no root@$TARGET_HOSTNAME "service iptables stop"
 
