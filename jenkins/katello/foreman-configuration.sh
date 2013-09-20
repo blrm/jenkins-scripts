@@ -9,7 +9,7 @@ IFS=$OIFS
 
 echo "Using libvirt setup"
 sshWithOpts root@$TARGET "
-yum install -y --nogpgcheck dhcp libvirt kvm foreman-libvirt
+yum install -y --nogpgcheck dhcp libvirt kvm foreman-libvirt node-installer
 
 
 modprobe nf_nat_tftp
