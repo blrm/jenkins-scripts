@@ -134,8 +134,8 @@ service dhcpd restart
 #Deprecated
 #foreman-proxy-configure -db --servername 192.168.100.1 --port 9090 --puppet true --puppetca false --dhcp true --dhcp-interface virbr1 --dns false --dns-interface false --tftp true
 
-FORWARDERS=`perl -ne 'chomp; s/^.* //; print " --dns-forwarders " . $_ if /\d+/ && !/192.168.100/' /etc/resolv.conf`
-OAUTH_SECRET=`cat /etc/katello/oauth_token-file`
+FORWARDERS=$(perl -ne 'chomp; s/^.* //; print " --dns-forwarders " . $_ if /\d+/ && !/192.168.100/' /etc/resolv.conf)
+OAUTH_SECRET=$(cat /etc/katello/oauth_token-file)
 node-install -v --parent-fqdn `hostname` --dns true $FORWARDERS --dns-interface virbr1 --dns-zone katellolabs.org --dhcp true --dhcp-interface virbr1 --pulp false --tftp true --puppet true --puppetca true --register-in-foreman true --oauth-consumer-secret "$OAUTH_SECRET"
 
 # for port-forwarding to work correctly
