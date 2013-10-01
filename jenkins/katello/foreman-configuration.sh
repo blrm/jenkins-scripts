@@ -145,6 +145,7 @@ node-install -v --parent-fqdn \$(hostname) --dns true \$FORWARDERS --dns-interfa
 # for port-forwarding to work correctly
 echo 1 > /proc/sys/net/ipv4/ip_forward
 
+service foreman restart
 service foreman-proxy restart
 "
 
