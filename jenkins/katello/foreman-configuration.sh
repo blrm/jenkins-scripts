@@ -96,7 +96,7 @@ max-lease-time 7200;
 
 ddns-update-style none;
 
-option domain-name "idm.lab.bos.redhat.com";
+option domain-name "example.org";
 option domain-name-servers 192.168.100.1;
 
 allow booting;
@@ -140,7 +140,7 @@ OAUTH_SECRET=\$(cat /etc/katello/oauth_token-file)
 echo FORWARDERS: \$FORWARDERS
 echo OAUTH_SECRET: \$OAUTH_SECRET
 
-node-install -v --parent-fqdn \$(hostname) --dns true \$FORWARDERS --dns-interface virbr1 --dns-zone katellolabs.org --dhcp true --dhcp-interface virbr1 --pulp false --tftp true --puppet true --puppetca true --register-in-foreman true --oauth-consumer-secret "\$OAUTH_SECRET"
+node-install -v --parent-fqdn \$(hostname) --dns true \$FORWARDERS --dns-interface virbr1 --dns-zone example.org --dhcp true --dhcp-interface virbr1 --pulp false --tftp true --puppet true --puppetca true --register-in-foreman true --oauth-consumer-secret "\$OAUTH_SECRET"
 
 # for port-forwarding to work correctly
 echo 1 > /proc/sys/net/ipv4/ip_forward
