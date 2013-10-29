@@ -22,7 +22,7 @@ endswith(){
     echo $1 | grep "${2}$"
 }
 
-ssh -o StrictHostKeyChecking=no root@$TARGET_HOSTNAME "subscription-manager  register --force --username=qa@redhat.com --password=29W11uh4tdq7783;subscription-manager subscribe --pool 8a85f9843affb61f013b19cbdd555ea0;rm -rf /var/cache/yum*;yum clean all;yum-config-manager --disable \"*\";yum-config-manager --enable \"rhel-6-server-rpms\";yum-config-manager --disable \*cf-tools\*;yum-config-manager --disable \*for-rhel\*;yum-config-manager --disable \*rhev\*;"
+ssh -o StrictHostKeyChecking=no root@$TARGET_HOSTNAME "yum clean all;yum-config-manager --disable \"*\";yum-config-manager --enable \"rhel-6-server-rpms\";yum-config-manager --disable \*cf-tools\*;yum-config-manager --disable \*for-rhel\*;yum-config-manager --disable \*rhev\*;"
 
 for repo in $REPOS; do
     if endswith $repo "\.repo"; then
