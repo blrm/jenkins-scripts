@@ -23,7 +23,7 @@ endswith(){
 }
 ssh -o StrictHostKeyChecking=no root@$TARGET_HOSTNAME "subscription-manager  register --force --username=$QA_USER --password=$QA_PASS"
 ssh -o StrictHostKeyChecking=no root@$TARGET_HOSTNAME "subscription-manager subscribe --pool $SUB_POOL"
-ssh -o StrictHostKeyChecking=no root@$TARGET_HOSTNAME "yum clean all;yum-config-manager --disable \"*\";yum-config-manager --enable \"rhel-6-server-rpms\";yum-config-manager --disable \*cf-tools\*;yum-config-manager --disable \*for-rhel\*;yum-config-manager --disable \*rhev\*;"
+ssh -o StrictHostKeyChecking=no root@$TARGET_HOSTNAME "yum clean all;rm -rf /var/cache/yum*;yum-config-manager --disable \"*\";yum-config-manager --enable \"rhel-6-server-rpms\";yum-config-manager --disable \*cf-tools\*;yum-config-manager --disable \*for-rhel\*;yum-config-manager --disable \*rhev\*;yum repolist"
 
 
 for repo in $REPOS; do
@@ -61,7 +61,7 @@ install_cert() {
 }
 
 
-if ! ssh -o StrictHostKeyChecking=no root@$TARGET_HOSTNAME "set -e;yum install ${EXTRA_YUM_OPT[@]} -y $PRODUCT_PACKAGE;yum -y update;katello-configure ${KATELLO_CONFIGURE_OPTS[@]}" ; then
+if ! ssh -o StrictHostKeyChecking=no root@$TARGET_HOSTNAME "set -e;yum install ${EXTRA_YUM_OPT[@]} -y $PRODUCT_PACKAGE;katello-configure ${KATELLO_CONFIGURE_OPTS[@]}" ; then
     get_logs 
     exit 1
 else 
