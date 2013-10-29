@@ -56,6 +56,8 @@ install_cert() {
     ssh -o StrictHostKeyChecking=no root@$TARGET_HOSTNAME "cd /etc/candlepin/certs/upstream;curl -LkO $1;service tomcat6 restart"
 }
 
+ssh -o StrictHostKeyChecking=no root@$TARGET_HOSTNAME "subscription-manager  register --force --username=qa@redhat.com --password=29W11uh4tdq7783;subscription-manager subscribe --pool 8a85f9843affb61f013b19cbdd555ea0;rm -rf /etc/yum.repos.d/beaker-*;rm -rf /var/cache/yum*;yum clean all;sed -i -e 's/^enabled=1/enabled=0/' /etc/yum.repos.d/epel*;yum-config-manager --disable '*';yum-config-manager --enable 'rhel-6-server-rpms';yum-config-manager --disable \*cf-tools\*;yum-config-manager --disable \*for-rhel\*;yum-config-manager --disable \*rhev\*;"
+
 if ! ssh -o StrictHostKeyChecking=no root@$TARGET_HOSTNAME "set -e;yum clean all;yum install ${EXTRA_YUM_OPT[@]} -y $PRODUCT_PACKAGE;yum -y update;katello-configure ${KATELLO_CONFIGURE_OPTS[@]}" ; then
     get_logs 
     exit 1
